@@ -7,14 +7,10 @@ from engine.simulate_keyboard import WindowsHook
 
 
 def check_outlier(data, entry, threshold):
-    min_entries = 0
     for x in data:
         entry_val = x[1][entry]
         if entry_val > threshold:
-            min_entries += 1
-
-    if min_entries > 2:
-        return True
+            return True
     return False
 
 
