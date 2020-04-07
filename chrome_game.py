@@ -7,10 +7,10 @@ from engine.simulate_keyboard import WindowsHook
 
 
 def check_outlier(data, entry, threshold):
-    for x in data:
-        entry_val = x[1][entry]
-        if entry_val > threshold:
-            return True
+    data = [x[1][entry] for x in data]
+
+    if max(data) - min(data) > threshold:
+        return True
     return False
 
 
@@ -23,16 +23,25 @@ if __name__ == '__main__':
     w = WindowsHook(presentation_app)
 
     s = SensorStream(config["url"], filter_fields=["accel"])
-    p = s.start_polling(1)
+    p = s.start_polling(0.1)
 
     now = datetime.now()
     i = 0
-    while i < 100:
-        sleep(1)
+    sleep(1)
+    prev_accel = None
+
+    while i < 1000:
+        sleep(0.1)
         accel_data = s.get_last_items(1)[0]["response"]["accel"]["data"]
 
-        outlier = check_outlier(accel_data, 2, 12)
+        if prev_accel == accel_data:
+            continue
+
+        outlier = check_outlier(accel_data, 2, 10)
         print(outlier)
+
         if outlier:
             w.send_action(" ")
+
+        prev_accel = accel_data
         i += 1
