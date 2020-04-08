@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/accLayout">
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/xValue"/>
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/yValue"/>
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/zValue"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/gyroLayout"
+        android:layout_below="@+id/accLayout"
+        android:layout_marginTop="10sp">
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/xGyroValue"/>
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/yGyroValue"/>
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/zGyroValue"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/magnetLayout"
+        android:layout_below="@+id/gyroLayout"
+        android:layout_marginTop="10sp">
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/xMagnetValue"/>
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/yMagnetValue"/>
+
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/zMagnetValue"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/light"
+        android:layout_below="@+id/magnetLayout"
+        android:layout_marginTop="10sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pressure"
+        android:layout_below="@+id/light"
+        android:layout_marginTop="10sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temp"
+        android:layout_below="@+id/pressure"
+        android:layout_marginTop="10sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/humid"
+        android:layout_below="@+id/temp"
+        android:layout_marginTop="10sp"/>
+
+    <!--TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /-->
+
+</RelativeLayout>
