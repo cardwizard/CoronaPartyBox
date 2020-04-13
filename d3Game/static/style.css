@@ -1,0 +1,30 @@
+h1 {
+    text-align: center;
+}
+
+div {
+    text-align: center;
+}
+
+#gameSvg {
+    /* to center the svg*/
+    display: block;
+    margin: auto;
+    /* to center the svg*/
+    margin-top: 20px;
+    background-color: orange;
+}
+
+.pad {
+    fill: red;
+}
+
+.wall {
+    fill: black;
+}
+
+#ball {
+    fill: yellow;
+    stroke: black;
+    stroke-width: 1;
+}
