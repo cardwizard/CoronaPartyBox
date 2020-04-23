@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="utf-8"/>
+<head>
+	<title>Tonejs Midi</title>
+	<script type="text/javascript" src="https://unpkg.com/tone@13.4.9/build/Tone.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/@tonejs/ui@0.0.8/build/tonejs-ui.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/@tonejs/midi"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+	<style type="text/css">
+
+		#FileDrop{
+			position: relative;
+			width: 100%;
+			height: 100px;
+			border: 2px dashed black;
+			color: black;
+			margin: 20px auto;
+		}
+
+		#FileDrop.Hover{
+			background-color: black;
+			color: white;
+		}
+
+		#FileDrop input {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			left: 0px;
+			top: 0px;
+		}
+
+		#FileDrop #Text {
+			position: absolute;
+			width: 100%;
+			height: 20px;
+			line-height: 20px;
+			left: 0px;
+			top: 50%;
+			transform: translate(0, -50%);
+			text-align: center;
+		}
+
+		textarea {
+			font-family: monospace;
+			height: 300px;
+			width: 100%;
+			display: inline-block;
+			position: relative;
+			float: left;
+		}
+
+		#Results {
+			position: relative;
+			width: 100%;
+			margin: 10px auto;
+		}
+
+		#Description {
+			position: relative;
+			width: 100%;
+			text-align: center;
+			height: 40px;
+			font-size: 16px;
+			margin: 10px auto;
+			font-family: sans-serif;
+		}
+
+		tone-play-toggle {
+			margin-top: 10px;
+		}
+
+	</style>
+
+	<tone-content>
+		<div id="Description">MIDI PARTY!</div>
+		<div id="FileDrop">
+			<div id="Text">
+				Drop a midi file here
+			</div>
+			<input type="file" accept="audio/midi">
+		</div>
+		<div id="Results">
+			<textarea id="ResultsText" placeholder="json output..."></textarea>
+		</div>
+		<tone-play-toggle disabled></tone-play-toggle>
+	</tone-content>
+
+  <div class="container" style="text-align:center;"></div>
+
+	<script type="text/javascript" src="../js/main.js">
+
+
+	
+	</script>
+
+</body>
+</html>

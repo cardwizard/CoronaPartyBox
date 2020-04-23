@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <title>Corona Party Box</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm"></div>
+                <div class="col-sm">
+                    <h4>Corona Party Box - Music Party</h4>
+                </div>
+                <div class="col-sm"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm"></div>
+                <div class="col-sm">
+                    <label for="name"> Enter your name: </label>
+                    <input id="name">
+                </div>
+                <div class="col-sm">
+                    <button type="submit", id="submit_name" class="btn btn-primary"> Submit </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm"></div>
+                    <div class="col-sm">
+                        <button id="begin", type="submit", class="btn btn-primary">Start Game</button>
+                    </div>
+                <div class="col-sm">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm"></div>
+                <div class="col-sm">
+                    <label for="current_player">Current Player: </label>
+                    <div id="current_player"></div>
+
+                    <label for="challenge"> Challenge: </label>
+                    <div id="challenge"></div>
+
+                    <input id="user_input">
+                </div>
+                <div class="col-sm">
+
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
+
+<script>
+        var current_id = -1;
+
+        $("#submit_name").click(function(){
+
+            var name = $("#name").val();
+            var data = {"name": name};
+
+
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "/register_player",
+                success: function(){
+                    console.log("Worked well!");
+                }
+            });
+        });
+
+        function evaluate(data)
+        {
+            if (data["id"] <= current_id)
+                        return;
+
+            current_id = data["id"];
+            $("#current_player").html(data["player"]);
+            $("#challenge").html(data["word"]);
+        }
+
+        $("#begin").click(function(){
+
+            $.ajax({
+                type: "POST",
+                url: "/start_game",
+                success: function(data){
+                    evaluate(data);
+                }
+            });
+
+        });
+
+        function get_task() {
+            $.ajax({
+                type: "GET",
+                url: "/next_task",
+                success: function(data){
+                    console.log(data);
+                    evaluate(data);
+                }
+            });
+         }
+
+         function play(){
+            $.ajax({
+                type: "POST",
+                url: "/play",
+                success: function(data){
+                    return data["is_busy"];
+                }
+            });
+         }
+
+         function pause(){
+            $.ajax({
+                type: "POST",
+                url: "/pause",
+                success: function(data){
+                }
+            });
+         }
+
+         $('#user_input').keydown(function (event) {
+            var keypressed = event.keyCode || event.which;
+
+            if (keypressed == 13) {
+
+                var typed_val = $("#user_input").val();
+                var challenge_word = $("#challenge").html();
+                var current_player = $("#name").val();
+                var challenged_player = $("#current_player").html();
+
+                if ((typed_val == challenge_word) && (challenged_player == current_player)){
+                    // Clear the input field
+
+                    $("#user_input").val("");
+                    play();
+                    setTimeout(function(){ pause() }, 3000);
+                }
+
+                else
+                    console.log("Didn't Match!");
+            }
+        });
+        setInterval(function(){ get_task() }, 3000);
+
+</script>
