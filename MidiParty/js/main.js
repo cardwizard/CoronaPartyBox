@@ -105,7 +105,7 @@ document.querySelector('tone-play-toggle').addEventListener('play', (e) => {
 				var block = svg.append('rect')
 				.attr('fill', colors[random])
 				.attr('height', 15)
-				.attr('width', note.duration * 100 - 5)
+				.attr('width', note.duration * 100 - 3)
 				.attr('x', note.time * 100)
 				.attr('y', 20 + random * 50);
 
@@ -149,7 +149,7 @@ function moveBlocks(){
 
 
 var interval = setInterval(function(){moveBlocks();}, 100);
-
+var keyPressed = [false,false,false,false];
 
 $(document).keydown(function(e){
 
@@ -158,16 +158,18 @@ $(document).keydown(function(e){
 	// keys 49-52 represent numeric keys 1,2,3,4
 	for (i = 49; i <= 52; i++) {
 
-		if (e.which == i){
+		if (e.which == i && !keyPressed[i - 49]){
 			markers[i - 49].style("visibility", "visible");
+			keyPressed[i - 49] = true;
 
 			var j = 0;
 			for (j = 0; j < blocks[i - 49].length; j++){
 				var note = notes[i - 49][j];
-				var x = blocks[i - 49][j].attr('x');
-				console.log(blocks[i - 49][j].attr('x'), blocks[i - 49][j].attr('y'))
-				if (x <= 0) {	
-					synths[0].triggerAttackRelease(note.name, note.duration, note.time +  0.5, note.velocity)
+				var x = parseInt(blocks[i - 49][j].attr('x'));
+				var width = parseInt(blocks[i - 49][j].attr('width'));
+
+				if (x <= 0 && x + width > 0){	
+					synths[0].triggerAttackRelease(note.name, (width - x) / 100);
 					
 				}
 			}
@@ -183,6 +185,7 @@ $(document).keyup(function(e){
 
 		if (e.which == i){
 			markers[i - 49].style("visibility", "hidden");
+			keyPressed[i - 49] = false;
 		}
 	}
 
