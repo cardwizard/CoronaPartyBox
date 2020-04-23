@@ -31,11 +31,11 @@ render();
 
 function setup() {
     // json definitions of svg elements
-    barB = {id: "barB", class: "pad", cx: svgWidth/2, cy: svgHeight-barThickness/2, length: barLength, thickness: barThickness};
+    barB = {id: "barB", class: "pad", x: svgWidth/2, y: svgHeight-barThickness/2, length: barLength, thickness: barThickness};
     // for multiplayer, convert all the below walls to bars
-    barR = {id: "barR", class: "wall", cx: svgWidth - wallThickness/2, cy: svgHeight/2, length: wallLength, thickness: wallThickness};
-    barT = {id: "barT", class: "wall", cx: svgWidth/2, cy: wallThickness/2, length: wallLength, thickness: wallThickness};
-    barL = {id: "barL", class: "wall", cx: wallThickness/2, cy: svgHeight/2, length: wallLength, thickness: wallThickness};
+    barR = {id: "barR", class: "wall", x: svgWidth - wallThickness/2, y: svgHeight/2, length: wallLength, thickness: wallThickness};
+    barT = {id: "barT", class: "wall", x: svgWidth/2, y: wallThickness/2, length: wallLength, thickness: wallThickness};
+    barL = {id: "barL", class: "wall", x: wallThickness/2, y: svgHeight/2, length: wallLength, thickness: wallThickness};
 
     // assign random initial velocity to the ball
     ball = {id: "ball", class: "ball", x: svgWidth/2, y: svgHeight/2, r: ballRadius, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10};
@@ -59,23 +59,23 @@ function setup() {
 function reset() {
     // barB
     barB = barElements[0];
-    barB.cx = svgWidth/2;
-    barB.cy = svgHeight-barB.thickness/2;
+    barB.x = svgWidth/2;
+    barB.y = svgHeight-barB.thickness/2;
 
     // barR
     barR = barElements[1];
-    barR.cx = svgWidth - barR.thickness/2;
-    barR.cy = svgHeight/2;
+    barR.x = svgWidth - barR.thickness/2;
+    barR.y = svgHeight/2;
 
     // barT
     barT = barElements[2];
-    barT.cx = svgWidth/2;
-    barT.cy = barT.thickness/2;
+    barT.x = svgWidth/2;
+    barT.y = barT.thickness/2;
 
     // barL
     barL = barElements[3];
-    barL.cx = barL.thickness/2;
-    barL.cy = svgHeight/2;
+    barL.x = barL.thickness/2;
+    barL.y = svgHeight/2;
 
     ball.x = svgWidth/2;
     ball.y = svgHeight/2;
@@ -101,18 +101,18 @@ function render() {
                             .attr("id", function (d) {return d.id})
                             .attr("x", function (d) {
                                 if (d.id == "barB" || d.id == "barT") {
-                                    return d.cx - d.length/2;
+                                    return d.x - d.length/2;
                                 }
                                 else {
-                                    return d.cx - d.thickness/2;
+                                    return d.x - d.thickness/2;
                                 }
                             })
                             .attr("y", function(d) {
                                 if (d.id == "barB" || d.id == "barT") {
-                                    return d.cy - d.thickness/2;
+                                    return d.y - d.thickness/2;
                                 }
                                 else {
-                                    return d.cy - d.length/2;
+                                    return d.y - d.length/2;
                                 }
                             })
                             .attr("width", function (d) {
@@ -160,18 +160,18 @@ function ticked() {
     // update the bar position here
     renderedBars.attr("x", function (d) {
                     if (d.id == "barB" || d.id == "barT") {
-                        return d.cx - d.length/2;
+                        return d.x - d.length/2;
                     }
                     else {
-                        return d.cx - d.thickness/2;
+                        return d.x - d.thickness/2;
                     }
                 })
                 .attr("y", function(d) {
                     if (d.id == "barB" || d.id == "barT") {
-                        return d.cy - d.thickness/2;
+                        return d.y - d.thickness/2;
                     }
                     else {
-                        return d.cy - d.length/2;
+                        return d.y - d.length/2;
                     }
                 });
 }
@@ -180,22 +180,22 @@ function moveBar() {
     var userInput = d3.event.keyCode;
     var moveStep = 5;
 
-    if (Date.now() - time < 25 && moveStep < 50) {
-        moveStep += 5;
-        time = Date.now();
+    if (Date.now() - time < 50 && moveStep < 50) {
+        moveStep += 2;
     }
     else {
         moveStep = 5;
     }
+    time = Date.now();
 
     // use the user input to set the bar position
-    if ((userInput == 37) && (barElements[0].cx - 2 > barElements[0].length/2)) {
+    if ((userInput == 37) && (barElements[0].x - 2 > barElements[0].length/2)) {
         // left arrow
-        barElements[0].cx -= moveStep;
+        barElements[0].x -= moveStep;
     }
-    if ((userInput == 39) && (barElements[0].cx + 2 < svgWidth - barElements[0].length/2)) {
+    if ((userInput == 39) && (barElements[0].x + 2 < svgWidth - barElements[0].length/2)) {
         // right arrow
-        barElements[0].cx += moveStep;
+        barElements[0].x += moveStep;
     }
 }
 
@@ -207,9 +207,9 @@ function reboundForce(alpha) {
 
     // bottom bar
     bar = barElements[0];
-    if (ball.y >= (bar.cy - bar.thickness/2 - ballRadius)) {
+    if (ball.y >= (bar.y - bar.thickness/2 - ballRadius)) {
         // ball is below the ground
-        if (ball.x >= (bar.cx - bar.length/2 - ballRadius) && ball.x <= (bar.cx + bar.length/2 + ballRadius)) {
+        if (ball.x >= (bar.x - bar.length/2 - ballRadius) && ball.x <= (bar.x + bar.length/2 + ballRadius)) {
             // ball is colliding with bottom bar, flip the y component of its velocity
             ball.vy *= -1;
         }
@@ -221,9 +221,9 @@ function reboundForce(alpha) {
 
     // right bar
     bar = barElements[1];
-    if (ball.x >= (bar.cx - bar.thickness/2 - ballRadius)) {
+    if (ball.x >= (bar.x - bar.thickness/2 - ballRadius)) {
         // ball is beyond the right wall
-        if (ball.y >= (bar.cy - bar.length/2 - ballRadius) && ball.y <= (bar.cy + bar.length/2 + ballRadius)) {
+        if (ball.y >= (bar.y - bar.length/2 - ballRadius) && ball.y <= (bar.y + bar.length/2 + ballRadius)) {
             // ball is colliding with right bar, flip the x component of its velocity
             ball.vx *= -1;
         }
@@ -235,9 +235,9 @@ function reboundForce(alpha) {
 
     // top bar
     bar = barElements[2];
-    if (ball.y <= (bar.cy + bar.thickness/2 + ballRadius)) {
+    if (ball.y <= (bar.y + bar.thickness/2 + ballRadius)) {
         // ball is above the ceiling
-        if (ball.x >= (bar.cx - bar.length/2 - ballRadius) && ball.x <= (bar.cx + bar.length/2 + ballRadius)) {
+        if (ball.x >= (bar.x - bar.length/2 - ballRadius) && ball.x <= (bar.x + bar.length/2 + ballRadius)) {
             // ball is colliding with top bar, flip the y component of its velocity
             ball.vy *= -1;
         }
@@ -249,9 +249,9 @@ function reboundForce(alpha) {
 
     // left bar
     bar = barElements[3];
-    if (ball.x <= (bar.cx + bar.thickness/2 + ballRadius)) {
+    if (ball.x <= (bar.x + bar.thickness/2 + ballRadius)) {
         // ball is beyond the left wall
-        if (ball.y >= (bar.cy - bar.length/2 - ballRadius) && ball.y <= (bar.cy + bar.length/2 + ballRadius)) {
+        if (ball.y >= (bar.y - bar.length/2 - ballRadius) && ball.y <= (bar.y + bar.length/2 + ballRadius)) {
             // ball is colliding with bottom bar, flip the y component of its velocity
             ball.vx *= -1;
         }
