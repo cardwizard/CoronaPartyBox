@@ -16,7 +16,7 @@ How to play the game with the app:
          2. back: Upper edge towards the user
          3. right: right edge down
          4. left: left edge down
-You can see the action you are currently doing on the screen
+- You can see the action you are currently doing on the screen
 5. You can map these four actions to the UDP do messages you send my entering the required text in the textbox given on the screen and then pressing the submit button 
 6. You can adjust the sensitivity of these gestures using the slider provided on the screen.
 7. Initially, the sensitivity is set to the highest 
