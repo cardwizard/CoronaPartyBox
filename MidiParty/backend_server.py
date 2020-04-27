@@ -10,7 +10,7 @@ player_counter = 0
 @app.route('/')
 def sessions():
     global player_counter
-    player_counter += 1
+    player_counter = (player_counter + 1) % 4
     return render_template('html/index.html', player_number=player_counter)
 
 
