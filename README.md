@@ -7,16 +7,16 @@ How to play the game with the app:
 3. Then click on Gesture Remote button
 4. You have two options to hold the phone (both landscape):
     1. Flat: Screen face upwards
-         front: Upper edge down
-         back: Lower edge down
-         right: right edge down
-         left: left edge down
+         1. front: Upper edge down
+         2. back: Lower edge down
+         3. right: right edge down
+         4. left: left edge down
     2. Steering: Screen faces the user
-         front: Upper edge away from the user
-         back: Upper edge towards the user
-         right: right edge down
-         left: left edge down
-You can see the action you are currently doing on the screen
+         1. front: Upper edge away from the user
+         2. back: Upper edge towards the user
+         3. right: right edge down
+         4. left: left edge down
+- You can see the action you are currently doing on the screen
 5. You can map these four actions to the UDP do messages you send my entering the required text in the textbox given on the screen and then pressing the submit button 
 6. You can adjust the sensitivity of these gestures using the slider provided on the screen.
 7. Initially, the sensitivity is set to the highest 

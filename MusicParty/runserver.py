@@ -30,7 +30,7 @@ def start_game():
         started = True
         # Add the first task!
         tasks.append({"id": 0, "player": random.choices(player_list)[0],
-                      "word": "".join([str(random.randint(0, 9))])})
+                      "word": "".join([str(random.randint(0, 4))])})
     else:
         print("Game Started!")
     return tasks[-1], 200
@@ -51,7 +51,7 @@ def play():
     previous_id = tasks[-1]["id"]
     # Add next task
     tasks.append({"id": previous_id + 1, "player": random.choices(player_list)[0],
-                  "word": "".join([str(random.randint(0, 9))])})
+                  "word": "".join([str(random.randint(0, 4))])})
 
     return {}, 200
 
