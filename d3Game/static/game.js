@@ -180,13 +180,13 @@ function moveBar() {
     var userInput = d3.event.keyCode;
     var moveStep = 5;
 
-    if (Date.now() - time < 50 && moveStep < 50) {
+    /*if (Date.now() - time < 50 && moveStep < 50) {
         moveStep += 2;
     }
     else {
         moveStep = 5;
     }
-    time = Date.now();
+    time = Date.now();*/
 
     // use the user input to set the bar position
     if ((userInput == 37) && (barElements[0].x - 2 > barElements[0].length/2)) {
