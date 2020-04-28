@@ -38,7 +38,7 @@ function setup() {
     barL = {id: "barL", class: "wall", x: wallThickness/2, y: svgHeight/2, length: wallLength, thickness: wallThickness};
 
     // assign random initial velocity to the ball
-    ball = {id: "ball", class: "ball", x: svgWidth/2, y: svgHeight/2, r: ballRadius, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10};
+    ball = {id: "ball", class: "ball", x: svgWidth/2, y: svgHeight/2, r: ballRadius, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 20};
 
     // create a list of svg elements for adding to force field
     barElements = [barB, barR, barT, barL];
@@ -79,8 +79,8 @@ function reset() {
 
     ball.x = svgWidth/2;
     ball.y = svgHeight/2;
-    ball.vx = (Math.random() - 0.5) * 10;
-    ball.vy = (Math.random() - 0.5) * 10;
+    ball.vx = (Math.random() - 0.5) * 20;
+    ball.vy = (Math.random() - 0.5) * 20;
 
     // create a list of svg elements for adding to force field
     barElements = [barB, barR, barT, barL];
