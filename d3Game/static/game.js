@@ -27,12 +27,12 @@ var keyPressArray = {'left': false, 'right': false, 'A': false, 'D': false};
 svg = d3.select("#gameDiv").append("svg").attr("id", "gameSvg").attr("width", svgWidth).attr("height", svgHeight);
 
 // initialize the game
-setup();
+setup(0.2, 0.2);
 
 // render the svg elements once
 render();
 
-function setup() {
+function setup(start_x, start_y) {
     // json definitions of svg elements
     barB = {id: "barB", class: "pad", x: svgWidth/2, y: svgHeight-barThickness/2, length: barLength, thickness: barThickness};
     // for multiplayer, convert all the below walls to bars
@@ -41,7 +41,7 @@ function setup() {
     barL = {id: "barL", class: "wall", x: wallThickness/2, y: svgHeight/2, length: wallLength, thickness: wallThickness};
 
     // assign random initial velocity to the ball
-    ball = {id: "ball", class: "ball", x: svgWidth/2, y: svgHeight/2, r: ballRadius, vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 0.5) * 15};
+    ball = {id: "ball", class: "ball", x: svgWidth/2, y: svgHeight/2, r: ballRadius, vx: (start_x) * 20, vy: (start_y) * 15};
 
     // create a list of svg elements for adding to force field
     barElements = [barB, barR, barT, barL];
@@ -56,12 +56,12 @@ function setup() {
                     .stop();
 
     // register key down listener
-    d3.select("body").on("keydown", setKeyPress);
+    // d3.select("body").on("keydown", setKeyPress);
     // register key up listener
-    d3.select("body").on("keyup", resetKeyPress);
+    // d3.select("body").on("keyup", resetKeyPress);
 }
 
-function reset() {
+function reset(start_x, start_y) {
     // barB
     barB = barElements[0];
     barB.x = svgWidth/2;
@@ -84,8 +84,8 @@ function reset() {
 
     ball.x = svgWidth/2;
     ball.y = svgHeight/2;
-    ball.vx = (Math.random() - 0.5) * 20;
-    ball.vy = (Math.random() - 0.5) * 15;
+    ball.vx = (start_x) * 20;
+    ball.vy = (start_y) * 15;
 
     // create a list of svg elements for adding to force field
     barElements = [barB, barR, barT, barL];
@@ -154,7 +154,7 @@ function startGame() {
 
 function stopGame() {
     simulation.stop();
-    reset();
+    reset(0.2, 0.2);
 }
 
 function ticked() {
@@ -183,8 +183,8 @@ function ticked() {
     bar2ballSpeed = 0;
 }
 
-function setKeyPress() {
-    var userInput = d3.event.keyCode;
+function setKeyPress(userInput) {
+    // var userInput = d3.event.keyCode;
     if (userInput == 37) {
         keyPressArray['left'] = true;
     }
@@ -202,8 +202,8 @@ function setKeyPress() {
     }
 }
 
-function resetKeyPress() {
-    var userInput = d3.event.keyCode;
+function resetKeyPress(userInput) {
+    // var userInput = d3.event.keyCode;
     if (userInput == 37) {
         keyPressArray['left'] = false;
     }

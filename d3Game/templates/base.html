@@ -8,17 +8,20 @@
         <!--link href='http://fonts.googleapis.com/css?family=Overlock' rel='stylesheet' type='text/css'-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
         <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=" crossorigin="anonymous"></script>
     </head>
      
     <body>
         <h1>Multiplayer Pong Game</h1>
         <div id="controlsBar">
-            <button type="button" onClick="startGame()" id="start">Start</button> 
-            <button type="button" onClick="stopGame()" id="stop">Stop</button> 
+            <button type="button" id="start">Start</button>
+            <button type="button" id="stop">Stop</button>
         </div>
 
         <div id="gameDiv">            
         </div>
+        <div id="player_id"> </div>
         
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
@@ -28,3 +31,72 @@
     </body>
 
 </html>
+
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    var player_number = {{ player_number }};
+    $("#player_id").html("Player ID: " + player_number);
+
+    $("#start").click(function(){GameAnnounce("start");});
+    $("#stop").click(function(){GameAnnounce("stop");});
+
+    function GameAnnounce(action)
+    {
+        console.log("Announcing Game " + action);
+        socket.emit('game_announcement', {"action": action});
+    }
+
+    socket.on('act_game', function(data){
+        console.log(data);
+
+        if (data["action"] == "start")
+            startGame();
+
+        else if (data["action"] == "stop")
+            stopGame();
+    });
+
+    $(document).keydown(function(e){
+        console.log(e);
+        socket.emit('send_key_press', {"player_number": player_number, "action": e.keyCode, "key": "down"});
+    });
+
+    $(document).keyup(function(e){
+        socket.emit('send_key_press', {"player_number": player_number, "action": e.keyCode, "key": "up"});
+    });
+
+    socket.on('get_key_press', function(data){
+        // console.log(data);
+        var player_number = data["player_number"];
+        var action = data["action"];
+        var key = data["key"];
+
+        if (key == "down")
+        {
+            if ((player_number == 1) && ((action == 37) || (action == 39)))
+            {
+                setKeyPress(action);
+            }
+
+            if ((player_number == 2) && ((action == 65) || (action == 68)))
+            {
+                setKeyPress(action);
+            }
+        }
+
+        if (key == "up")
+        {
+            if ((player_number == 1) && ((action == 37) || (action == 39)))
+            {
+                resetKeyPress(action);
+            }
+
+            if ((player_number == 2) && ((action == 65) || (action == 68)))
+            {
+                resetKeyPress(action);
+            }
+        }
+    });
+
+</script>

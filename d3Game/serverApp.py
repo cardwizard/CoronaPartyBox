@@ -1,12 +1,31 @@
 from flask import Flask, request, render_template, jsonify
+from flask_socketio import SocketIO
 import json
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('base.html')
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
+player_counter = 0
+
+
+@app.route('/')
+def sessions():
+    global player_counter
+    player_counter = player_counter + 1
+    return render_template('base.html', player_number=(player_counter%2) + 1)
+
+
+@socketio.on('game_announcement')
+def announce_to_all(json):
+    print('received announcement')
+    socketio.emit("act_game", json, json=True, broadcast=True)
+
+
+@socketio.on('send_key_press')
+def key_press_info(json):
+    socketio.emit("get_key_press", json, json=True, broadcast=True)
+
 
 if __name__ == '__main__':
-    # start this web server
-    app.run(host='127.0.0.1', port=8080)
+    socketio.run(app)
