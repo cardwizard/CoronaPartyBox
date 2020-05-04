@@ -21,6 +21,7 @@ var barB, barR, barT, barL, ball;
 var barElements, collisionElements, simulation;
 
 var bar2ballSpeed = 0;
+var keyPressArray = {'left': false, 'right': false, 'A': false, 'D': false};
 
 // visual elements creation
 svg = d3.select("#gameDiv").append("svg").attr("id", "gameSvg").attr("width", svgWidth).attr("height", svgHeight);
@@ -54,8 +55,10 @@ function setup() {
                     .velocityDecay(0)
                     .stop();
 
-    // register key press listener
-    d3.select("body").on("keydown", moveBar);
+    // register key down listener
+    d3.select("body").on("keydown", setKeyPress);
+    // register key up listener
+    d3.select("body").on("keyup", resetKeyPress);
 }
 
 function reset() {
@@ -180,44 +183,71 @@ function ticked() {
     bar2ballSpeed = 0;
 }
 
-function moveBar() {
+function setKeyPress() {
     var userInput = d3.event.keyCode;
-    var moveStep = 5;
-
-    /*if (Date.now() - time < 50 && moveStep < 50) {
-        moveStep += 2;
+    if (userInput == 37) {
+        keyPressArray['left'] = true;
+    }
+    else if (userInput == 39) {
+        keyPressArray['right'] = true;
+    }
+    else if (userInput == 65) {
+        keyPressArray['A'] = true;
+    }
+    else if (userInput == 68) {
+        keyPressArray['D'] = true;
     }
     else {
-        moveStep = 5;
+        // do nothing
     }
-    time = Date.now();*/
+}
 
+function resetKeyPress() {
+    var userInput = d3.event.keyCode;
+    if (userInput == 37) {
+        keyPressArray['left'] = false;
+    }
+    else if (userInput == 39) {
+        keyPressArray['right'] = false;
+    }
+    else if (userInput == 65) {
+        keyPressArray['A'] = false;
+    }
+    else if (userInput == 68) {
+        keyPressArray['D'] = false;
+    }
+    else {
+        // do nothing
+    }
+}
+
+function reboundForce(alpha) {
+    // update bar position
+    var moveStep = 5;
     // use the user input to set the bottom bar position
-    if ((userInput == 37) && (barElements[0].x - 2 > barElements[0].length/2)) {
+    if (keyPressArray['left'] && (barElements[0].x - 2 > barElements[0].length/2)) {
         // left arrow
         barElements[0].x -= moveStep;
         bar2ballSpeed = -moveStep/5;
     }
-    if ((userInput == 39) && (barElements[0].x + 2 < svgWidth - barElements[0].length/2)) {
+    if (keyPressArray['right'] && (barElements[0].x + 2 < svgWidth - barElements[0].length/2)) {
         // right arrow
         barElements[0].x += moveStep;
         bar2ballSpeed = moveStep/5;
     }
 
     // use the user input to set the top bar position
-    if ((userInput == 65) && (barElements[2].x - 2 > barElements[2].length/2)) {
-        // left arrow
+    if (keyPressArray['A'] && (barElements[2].x - 2 > barElements[2].length/2)) {
+        // A key
         barElements[2].x -= moveStep;
         bar2ballSpeed = -moveStep/5;
     }
-    if ((userInput == 68) && (barElements[2].x + 2 < svgWidth - barElements[2].length/2)) {
-        // right arrow
+    if (keyPressArray['D'] && (barElements[2].x + 2 < svgWidth - barElements[2].length/2)) {
+        // D key
         barElements[2].x += moveStep;
         bar2ballSpeed = moveStep/5;
     }
-}
 
-function reboundForce(alpha) {
     var bar;
     // check if the ball collides with any bar and 
     // rebound the ball if it does
