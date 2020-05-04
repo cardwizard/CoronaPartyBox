@@ -33,7 +33,7 @@
 </html>
 
 <script>
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var socket = io.connect('https://' + document.domain + ':' + location.port);
 
     var player_number = {{ player_number }};
     $("#player_id").html("Player ID: " + player_number);

@@ -1,11 +1,11 @@
 from flask import Flask, request, render_template, jsonify
 from flask_socketio import SocketIO
-import json
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
+# socketio = SocketIO(app)
 player_counter = 0
 
 
